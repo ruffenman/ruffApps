@@ -1,4 +1,4 @@
-ruffApps - openFrameworks Apps to play with
+ruffApps - openFrameworks apps to play with
 ===========================================
 
 Overview/Setup
