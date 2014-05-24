@@ -1,8 +1,8 @@
 ruffApps - openFrameworks apps to play with
 ===========================================
 
-Overview/Setup
---------------
+Overview
+--------
 
 Hello!
 
