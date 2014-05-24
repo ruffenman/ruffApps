@@ -61,6 +61,9 @@
       <AdditionalDependencies>luaLibD.lib</AdditionalDependencies>
     </Link>
     <ProjectReference />
+    <PostBuildEvent>
+      <Command>copy ..\luaLib\bin\*.dll bin\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -79,6 +82,9 @@
       <AdditionalDependencies>luaLib.lib</AdditionalDependencies>
     </Link>
     <ProjectReference />
+    <PostBuildEvent>
+      <Command>copy ..\luaLib\bin\*.dll bin\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\luac.c" />
