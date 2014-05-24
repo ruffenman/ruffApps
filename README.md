@@ -31,32 +31,32 @@ Projects
 ========
 
 
-Lua Standalone Interpreter - ruffApps/lua/
-------------------------------------------
+Lua Standalone Interpreter - ruffApps/lua
+-----------------------------------------
 
 Lets you run Lua scripts you pass to it, or work with it interactively. http://www.lua.org/manual/5.2/manual.html#7
 
 The Lua interpreter will be created in 'ruffApps/lua/bin'. In Windows Explorer, Shift-RightClick in this folder and open a terminal here to run it. If you run the interpreter with no arguments/options, you will enter INTERACTIVE MODE. You can leave this mode by pressing Ctrl-C. Shell scripts, AutoHotKey scripts, and .bat files can make this more convenient and/or interesting.
 
 
-Lua Script Compiler - ruffApps/luac/
-------------------------------------
+Lua Script Compiler - ruffApps/luac
+-----------------------------------
 
 Translates programs written in the Lua programming language into binary files that can be loaded and executed with lua_dofile in C or with dofile in Lua. http://www.lua.org/manual/4.0/luac.html
 
 The Lua script compiler will be created in 'ruffApps/luac/bin'. Using similar methods as above, run it in a terminal.
 
 
-Lua Standard Libraries
-----------------------
+Lua Standard Libraries - ruffApps/luaLib
+----------------------------------------
 
 The standard libraries used by Lua and by applications that want to work with Lua. http://www.lua.org/manual/5.2/manual.html#6
 
 The Lua library is a .dll that will be created in 'ruffApps/luaLib/bin'. The luaLib project can be added as a project reference in other projects to allow it to be linked against. If you wish to access the full set of symbols in the Lua source (the luac project does this), a static library with this information will be built and placed in 'ruffApps/luaLib/lib' that can be linked against. This shouldn't be necessary in most cases.
 
 
-Jank
-----
+Jank - ruffApps/jank
+--------------------
 
 A randomly named test project centered loosely around the idea of using Lua as a high level control layer for a real time audio synthesis application/instrument. Audio synthesis is being done through the use of the Maximilian library. https://github.com/micknoise/Maximilian
 
