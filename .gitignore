@@ -1,0 +1,7 @@
+bin/
+lib/
+obj/
+*.sdf
+*.suo
+*.filters
+*.user
