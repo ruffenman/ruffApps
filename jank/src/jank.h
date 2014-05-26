@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "maximilian.h"
+#include "lua.hpp"
 
 class jank : public ofBaseApp{
 
@@ -20,7 +21,10 @@ class jank : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-		
+	private:
+		static void * luaAlloc(void *ud, void *ptr, size_t osize, size_t nsize);
+		static int luaPanic (lua_State *L);
+
 		void audioOut(float * input, int bufferSize, int nChannels);
 		
 		
@@ -35,4 +39,5 @@ class jank : public ofBaseApp{
 
 		maxiOsc test1;
 		double sample;
+		lua_State* L;
 };

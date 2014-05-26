@@ -1,5 +1,4 @@
 #include "jank.h"
-#include "maximilian.h"
 
 //--------------------------------------------------------------
 void jank::setup(){
@@ -25,6 +24,17 @@ void jank::setup(){
 	soundStream.setup(this, 2, 0, sampleRate, bufferSize, 4);
 
 	ofSetFrameRate(60);
+
+	// Create a new independent Lua global state and set our own allocator function
+	L = lua_newstate(&luaAlloc, NULL);
+	if (L) {
+		// Set our own panic function
+		lua_atpanic(L, &luaPanic);
+		// Load standard Lua libraries
+		luaL_openlibs(L);
+		luaL_dofile(L,"lua\\luaFuncs.lua");
+		lua_close(L);
+	}
 }
 
 //--------------------------------------------------------------
@@ -148,4 +158,24 @@ void jank::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void jank::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void * jank::luaAlloc(void *ud, void *ptr, size_t osize, size_t nsize){
+	if(NULL != ptr){
+		size_t origBlockSize = osize;
+	} else {
+		size_t luaType = osize;
+	}
+	if(nsize == 0){
+		free(ptr);
+		return NULL;
+	} else {
+		return realloc(ptr, nsize);
+	}
+}
+
+int jank::luaPanic (lua_State *L) {
+  luai_writestringerror("PANIC: unprotected error in call to Lua API (%s)\n",
+                   lua_tostring(L, -1));
+  return 0;  /* return to Lua to abort */
 }
