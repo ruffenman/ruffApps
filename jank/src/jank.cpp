@@ -33,7 +33,6 @@ void jank::setup(){
 		// Load standard Lua libraries
 		luaL_openlibs(L);
 		luaL_dofile(L,"lua\\luaFuncs.lua");
-		lua_close(L);
 	}
 }
 
@@ -101,6 +100,7 @@ void jank::draw(){
 
 void jank::exit(){
 	soundStream.close();
+	lua_close(L);
 }
 
 //--------------------------------------------------------------
@@ -142,12 +142,29 @@ void jank::windowResized(int w, int h){
 void jank::audioOut(float * output, int bufferSize, int nChannels){
 		for (int i = 0; i < bufferSize; i++){
 	
-			sample=test1.sinewave(440);
+			sample=luaGetSample();
 
 			lAudio[i] = output[i*nChannels    ] = sample;
 			rAudio[i] = output[i*nChannels + 1] = sample;
 
 		}
+}
+
+double jank::luaGetSample() {
+	double sample;
+
+	// Place sample func at top of stack
+	lua_getglobal(L, "getSample");
+
+	// Call the function
+	lua_call(L, 0, 1);
+
+	// Get returned sample value from stack
+	sample = static_cast<double>(lua_tonumber(L, -1));
+	// Pop value from stack
+	lua_pop(L, 1);
+
+	return sample;
 }
 
 //--------------------------------------------------------------

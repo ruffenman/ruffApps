@@ -26,7 +26,7 @@ class jank : public ofBaseApp{
 		static int luaPanic (lua_State *L);
 
 		void audioOut(float * input, int bufferSize, int nChannels);
-		
+		double luaGetSample();
 		
 		ofSoundStream soundStream;
 
