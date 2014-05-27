@@ -63,8 +63,18 @@
       </AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\luaLib\bin\*.dll bin\</Command>
+      <Command>copy ..\luaLib\bin\*.dll bin\
+copy ..\luac\bin\*.exe bin\
+if not exist lib (mkdir lib)
+copy ..\luaLib\bin\*.lib lib\
+if not exist include (mkdir include)
+copy ..\luaLib\include\* include\</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>if exist bin (del /q bin\*)
+if exist lib (del /q lib\*)
+if exist include (del /q include\*)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -85,8 +95,18 @@
       </AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\luaLib\bin\*.dll bin\</Command>
+      <Command>copy ..\luaLib\bin\*.dll bin\
+copy ..\luac\bin\*.exe bin\
+if not exist lib (mkdir lib)
+copy ..\luaLib\bin\*.lib lib\
+if not exist include (mkdir include)
+copy ..\luaLib\include\* include\</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>if exist bin (del /q bin\*)
+if exist lib (del /q lib\*)
+if exist include (del /q include\*)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\lua.c" />

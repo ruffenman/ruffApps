@@ -10,6 +10,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "openframeworksLib", "..\..\..\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj", "{5837595D-ACA9-485C-8E76-729040CE4B0B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lua", "..\lua\lua.vcxproj", "{58FEB522-BBD4-49C1-8986-AD6439579FFF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8B3B6B93-4C3D-41CC-81DB-F97B91593451} = {8B3B6B93-4C3D-41CC-81DB-F97B91593451}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "luac", "..\luac\luac.vcxproj", "{8B3B6B93-4C3D-41CC-81DB-F97B91593451}"
 EndProject
