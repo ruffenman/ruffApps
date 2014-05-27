@@ -71,8 +71,7 @@ if not exist include (mkdir include)
 copy ..\luaLib\include\* include\</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if exist bin (del /q bin\*)
-if exist lib (del /q lib\*)
+      <Command>if exist lib (del /q lib\*)
 if exist include (del /q include\*)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -103,8 +102,7 @@ if not exist include (mkdir include)
 copy ..\luaLib\include\* include\</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>if exist bin (del /q bin\*)
-if exist lib (del /q lib\*)
+      <Command>if exist lib (del /q lib\*)
 if exist include (del /q include\*)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
