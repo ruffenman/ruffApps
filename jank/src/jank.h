@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "maximilian.h"
 #include "lua.hpp"
 
 class jank : public ofBaseApp{
@@ -26,7 +25,7 @@ class jank : public ofBaseApp{
 		static int luaPanic (lua_State *L);
 
 		void audioOut(float * input, int bufferSize, int nChannels);
-		double luaGetSample();
+		double luaGetSample(bool isLeft);
 		
 		ofSoundStream soundStream;
 
@@ -37,7 +36,5 @@ class jank : public ofBaseApp{
 		
 		//------------------- for the simple sine wave synthesis
 
-		maxiOsc test1;
-		double sample;
 		lua_State* L;
 };

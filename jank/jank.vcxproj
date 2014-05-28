@@ -54,7 +54,7 @@
       <Optimization>Disabled</Optimization>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LUA_BUILD_AS_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -68,15 +68,19 @@
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>copy ..\luaLib\bin\*.dll bin\
+      <Command>%(Command)
+copy ..\luaLib\bin\*.dll bin\
+copy ..\luaXinput\bin\*.dll bin\
+copy ..\maximua\bin\*.dll bin\
 if not exist bin\lua (mkdir bin\lua)
+del /q bin\lua\*
 copy lua\*.lua bin\lua\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>LUA_BUILD_AS_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);..\..\..\addons\ofxVectorGraphics\libs;..\..\..\addons\ofxVectorGraphics\src;..\luaLib\include</AdditionalIncludeDirectories>
@@ -91,20 +95,22 @@ copy lua\*.lua bin\lua\</Command>
     </Link>
     <PostBuildEvent />
     <PostBuildEvent>
-      <Command>copy ..\luaLib\bin\*.dll bin\
+      <Command>%(Command)
+copy ..\luaLib\bin\*.dll bin\
+copy ..\luaXinput\bin\*.dll bin\
+copy ..\maximua\bin\*.dll bin\
 if not exist bin\lua (mkdir bin\lua)
+del /q bin\lua\*
 copy lua\*.lua bin\lua\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\maximilian.cpp" />
     <ClCompile Include="src\jank.cpp" />
     <ClCompile Include="..\..\..\addons\ofxVectorGraphics\src\ofxVectorGraphics.cpp" />
     <ClCompile Include="..\..\..\addons\ofxVectorGraphics\libs\CreEPS.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\maximilian.h" />
     <ClInclude Include="src\jank.h" />
     <ClInclude Include="..\..\..\addons\ofxVectorGraphics\src\ofxVectorGraphics.h" />
     <ClInclude Include="..\..\..\addons\ofxVectorGraphics\libs\CreEPS.hpp" />
@@ -121,6 +127,11 @@ copy lua\*.lua bin\lua\</Command>
     </ProjectReference>
     <ProjectReference Include="..\luaLib\luaLib.vcxproj">
       <Project>{eb6552f7-a39f-461d-a3b3-f128d99dca6b}</Project>
+      <Private>true</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -30,9 +30,21 @@ void jank::setup(){
 	if (L) {
 		// Set our own panic function
 		lua_atpanic(L, &luaPanic);
+
 		// Load standard Lua libraries
 		luaL_openlibs(L);
-		luaL_dofile(L,"lua\\luaFuncs.lua");
+
+#ifdef _DEBUG
+		lua_pushboolean(L, true);
+		lua_setglobal(L, "DEBUG_BUILD");
+#endif
+
+		luaL_dofile(L,"lua\\jank.lua");
+		
+		// Place init func at top of stack
+		lua_getglobal(L, "init");
+		// Call the function
+		lua_call(L, 0, 1);
 	}
 }
 
@@ -44,8 +56,7 @@ void jank::update(){
 //--------------------------------------------------------------
 void jank::draw(){
 	ofSetColor(225);
-	ofDrawBitmapString("AUDIO OUTPUT EXAMPLE", 32, 32);
-	ofDrawBitmapString("press 's' to unpause the audio\npress 'e' to pause the audio", 31, 92);
+	ofDrawBitmapString("GAMEPAD DO SOUND THINGS", 31, 92);
 	
 	ofNoFill();
 	
@@ -140,21 +151,24 @@ void jank::windowResized(int w, int h){
 
 //--------------------------------------------------------------
 void jank::audioOut(float * output, int bufferSize, int nChannels){
-		for (int i = 0; i < bufferSize; i++){
-	
-			sample=luaGetSample();
+	for (int i = 0; i < bufferSize; i++){	
+		double sampleL = luaGetSample(true);
+		double sampleR = luaGetSample(false);
 
-			lAudio[i] = output[i*nChannels    ] = sample;
-			rAudio[i] = output[i*nChannels + 1] = sample;
-
-		}
+		lAudio[i] = output[i*nChannels    ] = sampleL;
+		rAudio[i] = output[i*nChannels + 1] = sampleR;
+	}
 }
 
-double jank::luaGetSample() {
+double jank::luaGetSample(bool isLeft) {
 	double sample;
 
 	// Place sample func at top of stack
-	lua_getglobal(L, "getSample");
+	if(isLeft) {
+		lua_getglobal(L, "getSampleLeft");
+	} else {
+		lua_getglobal(L, "getSampleRight");
+	}
 
 	// Call the function
 	lua_call(L, 0, 1);
