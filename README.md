@@ -65,7 +65,7 @@ The Jank executable will be created in 'ruffApps/jank/bin'. At the moment perfor
 luaXinput - ruffApps/luaXinput
 ------------------------------
 
-A Lua module that provides some basic functionality of DirectX Xinput. Needs access to the xinput.dll appropriate for your platform. (I'm using the June 2010 DirectX SDK on Windows 7)
+A Lua module that provides some basic functionality of DirectX Xinput. Needs access to the xinput.dll appropriate for your platform. (I'm using the June 2010 DirectX SDK on Windows 7) Original source for the module comes from https://bitbucket.org/bartbes/lua-xinput. I've only made a few small changes so far.
 
 The luaXinput.dll will be created in 'ruffApps/luaXinput/bin'.
 
