@@ -164,14 +164,11 @@ double jank::luaGetSample(bool isLeft) {
 	double sample;
 
 	// Place sample func at top of stack
-	if(isLeft) {
-		lua_getglobal(L, "getSampleLeft");
-	} else {
-		lua_getglobal(L, "getSampleRight");
-	}
+	lua_getglobal(L, "getSample");
 
 	// Call the function
-	lua_call(L, 0, 1);
+	lua_pushboolean(L, isLeft);
+	lua_call(L, 1, 1);
 
 	// Get returned sample value from stack
 	sample = static_cast<double>(lua_tonumber(L, -1));

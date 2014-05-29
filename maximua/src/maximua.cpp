@@ -9,21 +9,29 @@
 
 namespace {
 
-static maxiOsc osc;
+static maxiOsc oscL;
+static maxiOsc oscR;
 
 static int oscSine(lua_State *L)
 {
 	double frequency = static_cast<double>(luaL_checknumber(L, 1));
-	lua_pop(L, 1);
-
-	double sample = osc.sinewave(frequency);
+	bool isLeft = static_cast<bool>(lua_toboolean(L, 2));
+	lua_pop(L, 2);
+	
+	double sample = 0;
+	if(isLeft) {
+		sample = oscL.sinewave(frequency);
+	}
+	else {
+		sample = oscR.sinewave(frequency);
+	}
 
 	lua_pushnumber(L, sample);
 	return 1;
 }
 
 static luaL_Reg funcs[] = {
-	{"osc.sine", oscSine},
+	{"oscSine", oscSine},
 	{0, 0},
 };
 
