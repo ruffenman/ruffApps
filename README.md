@@ -61,3 +61,17 @@ Jank - ruffApps/jank
 A randomly named test project centered loosely around the idea of using Lua as a high level control layer for a real time audio synthesis application/instrument. Audio synthesis is being done through the use of the Maximilian library. https://github.com/micknoise/Maximilian
 
 The Jank executable will be created in 'ruffApps/jank/bin'. At the moment performance may be a little iffy depending on your sound card/drivers. I've had luck using the ASIO4ALL driver. http://www.asio4all.com/
+
+luaXinput - ruffApps/luaXinput
+------------------------------
+
+A Lua module that provides some basic functionality of DirectX Xinput. Needs access to the xinput.dll appropriate for your platform. (I'm using the June 2010 DirectX SDK on Windows 7)
+
+The luaXinput.dll will be created in 'ruffApps/luaXinput/bin'.
+
+maximua - ruffApps/maximua
+--------------------------
+
+A Lua module that provides access to Maximilian's functionality from script.
+
+The maximua.dll will be created in 'ruffApps/maximua/bin'.
