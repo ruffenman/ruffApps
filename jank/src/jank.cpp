@@ -44,7 +44,7 @@ void jank::setup(){
 		// Place init func at top of stack
 		lua_getglobal(L, "init");
 		// Call the function
-		lua_call(L, 0, 1);
+		lua_call(L, 0, 0);
 	}
 }
 
@@ -163,11 +163,10 @@ void jank::audioOut(float * output, int bufferSize, int nChannels){
 double jank::luaGetSample(bool isLeft) {
 	double sample;
 
-	// Place sample func at top of stack
+	// Place sample func and arg at top of stack
 	lua_getglobal(L, "getSample");
-
-	// Call the function
 	lua_pushboolean(L, isLeft);
+	// Call the function
 	lua_call(L, 1, 1);
 
 	// Get returned sample value from stack

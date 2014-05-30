@@ -562,9 +562,9 @@ static int getState(lua_State *L)
 	int err = XInputGetState(user, &state);
 	if (err != ERROR_SUCCESS)
 		return h::winerror(L, err);
-
+	
 	lua_pushnumber(L, state.dwPacketNumber);
-
+	/*
 	lua_newtable(L);
 	WORD buttonTest = 1;
 	do
@@ -573,7 +573,7 @@ static int getState(lua_State *L)
 		lua_pushboolean(L, state.Gamepad.wButtons & buttonTest);
 		lua_settable(L, -3);
 	} while (buttonTest <<= 1);
-
+	*/
 	lua_pushnumber(L, state.Gamepad.bLeftTrigger);
 	lua_pushnumber(L, state.Gamepad.bRightTrigger);
 	lua_pushnumber(L, state.Gamepad.sThumbLX);
@@ -581,7 +581,7 @@ static int getState(lua_State *L)
 	lua_pushnumber(L, state.Gamepad.sThumbRX);
 	lua_pushnumber(L, state.Gamepad.sThumbRY);
 
-	return 8;
+	return 7;
 }
 
 // boolean success = setState(user user, int leftMotor, int rightMotor)
