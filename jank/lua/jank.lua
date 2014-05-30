@@ -23,6 +23,7 @@ end
 
 function getSample(isLeft)
   if(isLeft) then
+    -- Only update input on left channel call (half the updates!)
     state, leftTrigger, rightTrigger, leftX, leftY, rightX, rightY = luaXinput.getState(0)
     return oscL.sinewave(lerp(220, 880, leftTrigger / 255));
   else
