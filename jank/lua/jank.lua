@@ -3,10 +3,12 @@ local luaXinput
 local osc1, osc2, osc3, osc4
 local state, leftTrigger, rightTrigger, leftX, leftY, rightX, rightY
 local notes = { 16.35, 17.32, 18.35, 19.45, 20.60, 21.83, 23.12, 24.50, 25.96, 27.5, 29.14, 30.87 }
-local scale = { 1, 3, 5, 6, 8, 10, 12 }
-local voicing = { 1, 5, 10, 14 }
+
 local key = 10
 local octave = 3
+local scale = { 1, 3, 5, 6, 8, 10, 12 }
+local voicing = { 1, 5, 10, 14 }
+
 local output = 0
 
 local function lerp(a, b, t)
