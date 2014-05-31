@@ -22,12 +22,50 @@ function init()
 end
 
 function getSample(isLeft)
+  local freq = 0;
+  local notes = { 27.5, 29.14, 30.87, 32.70, 34.65, 36.71, 38.89, 41.20, 43.65, 46.25, 49.00, 51.91, 55 }
+  local keyNotes = { 1, 3, 5, 6, 8, 10, 12, 13 }
   if(isLeft) then
     -- Only update input on left channel call (half the updates!)
     state, leftTrigger, rightTrigger, leftX, leftY, rightX, rightY = luaXinput.getState(0)
-    return oscL.sinewave(lerp(220, 880, leftTrigger / 255));
+    
+    -- Convert input to 0 - 1
+    local input = leftTrigger / 255
+    -- Get octave of note by dividing input in half
+    local octave = (input >= 0.5 and 4) or 3
+    -- Scale notes to octave
+    for i, v in ipairs(notes) do
+      notes[i] = v * 2 ^ octave
+    end
+    -- Calc index of note    
+    local step
+    if(input >= 0.5) then
+      step = lerp(1, 8, (input - 0.5) / 0.5)
+    else
+      step = lerp(1, 8, input / 0.5)
+    end
+    step = math.floor(step)
+    freq = notes[keyNotes[step]]
+    return oscL.sinewave(freq);
   else
-    return oscR.sinewave(lerp(220, 880, rightTrigger / 255));
+    -- Convert input to 0 - 1
+    local input = rightTrigger / 255
+    -- Get octave of note by dividing input in half
+    local octave = (input >= 0.5 and 5) or 4
+    -- Scale notes to octave
+    for i, v in ipairs(notes) do
+      notes[i] = v * 2 ^ octave
+    end
+    -- Calc index of note    
+    local step
+    if(input >= 0.5) then
+      step = lerp(1, 8, (input - 0.5) / 0.5)
+    else
+      step = lerp(1, 8, input / 0.5)
+    end
+    step = math.floor(step)
+    freq = notes[keyNotes[step]]
+    return oscR.sinewave(freq);
   end
 end
 
