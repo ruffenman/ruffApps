@@ -1,5 +1,42 @@
+local maximua
+local luaXinput
+local osc1, osc2, osc3, osc4
+local state, leftTrigger, rightTrigger, leftX, leftY, rightX, rightY
+local notes = { 16.35, 17.32, 18.35, 19.45, 20.60, 21.83, 23.12, 24.50, 25.96, 27.5, 29.14, 30.87 }
+local scale = { 1, 3, 5, 6, 8, 10, 12 }
+local voicing = { 1, 5, 10, 14 }
+local key = 10
+local octave = 3
+local output = 0
+
 local function lerp(a, b, t)
   return a + (b - a) * t
+end
+
+local function getFreq(root, octave, step)
+  local keyStep = step + root - 1
+  while keyStep > #notes do
+    keyStep = keyStep - #notes
+    octave = octave + 1
+  end
+  while keyStep < 1 do
+    keyStep = keyStep + #notes
+    octave = octave - 1
+  end
+  return notes[keyStep] * 2 ^ octave
+end
+
+local function innerToOuterStep(inner, outer, step)
+  local multiplier = 0
+  while step > #inner do
+    step = step - #inner
+    multiplier = multiplier + 1
+  end
+  while step < 1 do
+    step = step + #inner
+    multiplier = multiplier - 1
+  end
+  return inner[step] + multiplier * #outer
 end
 
 function init()
@@ -15,62 +52,51 @@ function init()
   end
   luaXinput.enable()  
   
-  oscL = maximua.oscNew();
-  oscR = maximua.oscNew();
+  osc1 = maximua.oscNew();
+  osc2 = maximua.oscNew();
+  osc3 = maximua.oscNew();
+  osc4 = maximua.oscNew();
+    
   state, leftTrigger, rightTrigger, leftX, leftY, rightX, rightY = 0, 0, 0, 0, 0, 0, 0
   print('Initialized Lua state.')
 end
 
 function getSample(isLeft)
   local freq = 0;
-  local notes = { 27.5, 29.14, 30.87, 32.70, 34.65, 36.71, 38.89, 41.20, 43.65, 46.25, 49.00, 51.91, 55 }
-  local keyNotes = { 1, 3, 5, 6, 8, 10, 12, 13 }
+  
+  ---[=[
   if(isLeft) then
     -- Only update input on left channel call (half the updates!)
     state, leftTrigger, rightTrigger, leftX, leftY, rightX, rightY = luaXinput.getState(0)
     
     -- Convert input to 0 - 1
     local input = leftTrigger / 255
-    -- Get octave of note by dividing input in half
-    local octave = (input >= 0.5 and 4) or 3
-    -- Scale notes to octave
-    for i, v in ipairs(notes) do
-      notes[i] = v * 2 ^ octave
-    end
-    -- Calc index of note    
-    local step
-    if(input >= 0.5) then
-      step = lerp(1, 8, (input - 0.5) / 0.5)
-    else
-      step = lerp(1, 8, input / 0.5)
-    end
+    -- Calc step of note    
+    local step = lerp(1, 2 * #voicing + 1, input)
     step = math.floor(step)
-    freq = notes[keyNotes[step]]
-    return oscL.sinewave(freq);
+    freq = getFreq(key, octave, innerToOuterStep(scale, notes, innerToOuterStep(voicing, scale, step)))
+    return osc1.sinewave(freq);
   else
     -- Convert input to 0 - 1
     local input = rightTrigger / 255
-    -- Get octave of note by dividing input in half
-    local octave = (input >= 0.5 and 5) or 4
-    -- Scale notes to octave
-    for i, v in ipairs(notes) do
-      notes[i] = v * 2 ^ octave
-    end
-    -- Calc index of note    
-    local step
-    if(input >= 0.5) then
-      step = lerp(1, 8, (input - 0.5) / 0.5)
-    else
-      step = lerp(1, 8, input / 0.5)
-    end
+    -- Calc step of note
+    local step = lerp(1, 2 * #scale + 1, input)
     step = math.floor(step)
-    freq = notes[keyNotes[step]]
-    return oscR.sinewave(freq);
+    freq = getFreq(key, octave, innerToOuterStep(scale, notes, step))
+    return osc2.sinewave(freq);
   end
+  --]=]  
+  
+  --[=[
+  if(isLeft) then
+    local sample = osc1.sinewave(getFreq(key, octave, innerToOuterStep(scale, notes, voicing[1]))) 
+      + osc2.sinewave(getFreq(key, octave, innerToOuterStep(scale, notes, voicing[2])))
+      + osc3.sinewave(getFreq(key, octave, innerToOuterStep(scale, notes, voicing[3])))
+      + osc4.sinewave(getFreq(key, octave, innerToOuterStep(scale, notes, voicing[4])))
+    sample = sample * 0.25
+    
+    output = sample
+  end
+  return output
+  --]=]
 end
-
-local maximua
-local luaXinput
-local oscL
-local oscR
-local state, leftTrigger, rightTrigger, leftX, leftY, rightX, rightY
