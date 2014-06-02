@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void jank::setup(){
+	initialized = false;
 	ofBackground(34, 34, 34);
 
 	// 2 output channels,
@@ -45,6 +46,8 @@ void jank::setup(){
 		lua_getglobal(L, "init");
 		// Call the function
 		lua_call(L, 0, 0);
+
+		initialized = true;
 	}
 }
 
@@ -151,12 +154,14 @@ void jank::windowResized(int w, int h){
 
 //--------------------------------------------------------------
 void jank::audioOut(float * output, int bufferSize, int nChannels){
-	for (int i = 0; i < bufferSize; i++){	
-		double sampleL = luaGetSample(true);
-		double sampleR = luaGetSample(false);
+	if(initialized) {
+		for (int i = 0; i < bufferSize; i++) {	
+			double sampleL = luaGetSample(true);
+			double sampleR = luaGetSample(false);
 
-		lAudio[i] = output[i*nChannels    ] = sampleL;
-		rAudio[i] = output[i*nChannels + 1] = sampleR;
+			lAudio[i] = output[i*nChannels    ] = sampleL;
+			rAudio[i] = output[i*nChannels + 1] = sampleR;
+		}
 	}
 }
 

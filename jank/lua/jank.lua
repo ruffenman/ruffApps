@@ -82,7 +82,7 @@ function getSample(isLeft)
     local step = lerp(1, #voicing, input)
     step = math.floor(step)
     freq = getFreq(key, octave, innerToOuterStep(scale, notes, innerToOuterStep(voicing, scale, step)))
-    return osc1.sinewave(freq);
+    return 0.5 * osc1.sinewave(freq);
   else
     -- Convert input to 0 - 1
     local input = rightTrigger / 255
@@ -90,7 +90,7 @@ function getSample(isLeft)
     local step = lerp(1, #scale, input)
     step = math.floor(step)
     freq = getFreq(key, octave, innerToOuterStep(scale, notes, step))
-    return osc2.sinewave(freq);
+    return 0.5 * osc2.sinewave(freq);
   end
   --]=]  
   

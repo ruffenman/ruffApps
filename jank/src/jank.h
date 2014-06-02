@@ -37,4 +37,5 @@ class jank : public ofBaseApp{
 		//------------------- for the simple sine wave synthesis
 
 		lua_State* L;
+		bool initialized;
 };
